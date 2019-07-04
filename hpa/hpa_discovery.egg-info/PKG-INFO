@@ -1,0 +1,20 @@
+Metadata-Version: 1.1
+Name: hpa-discovery
+Version: 1.0
+Summary: HPA discovery package for stevedore
+Home-page: https://opendev.org/openstack/stevedore
+Author: Haibin Huang
+Author-email: haibin.huang@intel.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: Any
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Intended Audience :: Developers
+Classifier: Environment :: Console
+Provides: hpa_discovery
