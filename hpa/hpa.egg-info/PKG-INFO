@@ -1,5 +1,5 @@
 Metadata-Version: 1.1
-Name: hpa-discovery
+Name: hpa
 Version: 1.0
 Summary: HPA discovery package for stevedore
 Home-page: https://opendev.org/openstack/stevedore
@@ -17,4 +17,4 @@ Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Python :: 3.5
 Classifier: Intended Audience :: Developers
 Classifier: Environment :: Console
-Provides: hpa_discovery
+Provides: hpa

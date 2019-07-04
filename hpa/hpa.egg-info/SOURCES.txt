@@ -1,0 +1,11 @@
+setup.py
+hpa/__init__.py
+hpa/base.py
+hpa/hpa_discovery.py
+hpa.egg-info/PKG-INFO
+hpa.egg-info/SOURCES.txt
+hpa.egg-info/dependency_links.txt
+hpa.egg-info/entry_points.txt
+hpa.egg-info/not-zip-safe
+hpa.egg-info/requires.txt
+hpa.egg-info/top_level.txt

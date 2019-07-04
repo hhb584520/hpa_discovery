@@ -15,30 +15,33 @@ if __name__ == '__main__':
     )
     parsed_args = parser.parse_args()
 
-    data = {
-        'a': 'A',
-        'B': 'BBB',
-        'long': 'word ' * 80,
+    flavor = ""
+    extra_specs = {
+        "aggregate_instance_extra_specs:storage": "local_image",
+        "capabilities:cpu_info:model": "Haswell",
+        "hw:cpu_policy": "dedicated",
+        "hw:cpu_thread_policy": "prefer"
     }
+    viminfo = ""
+    data = [flavor, extra_specs, viminfo]
 
     mgr = extension.ExtensionManager(
-        namespace='hpa_discovery.formatter',
-        invoke_on_load=1,
+        namespace='hpa.discovery',
+        invoke_on_load=True,
         invoke_args=(parsed_args.width,),
     )
 
-    def hformat_data(ext, data):
-        return (ext.name, ext.obj.hformat(data))
+    def get_cpupining(ext, data):
+        return (ext.name, ext.obj.get_cpupining(data))
 
-    def tformat_data(ext, data):
-        return (ext.name, ext.obj.tformat(data))
 
-    arr_format = [hformat_data, tformat_data]    
+    arr_hpa = [get_cpupining]    
 
-    for index in range(len(arr_format)):
-        results = mgr.map(arr_format[index], data)
-        for name, result in results:
-            print('Formatter: {0}'.format(name))
-            for chunk in result:
-                print(chunk, end='')
-            print('')
+    for index in range(len(arr_hpa)):
+        #mgr.map(arr_hpa[index], data)
+        results = mgr.map(arr_hpa[index], data)
+        for name, value in results:
+            print(name)
+            for chunk in value:
+                k = [a for a in value]
+                print(k)

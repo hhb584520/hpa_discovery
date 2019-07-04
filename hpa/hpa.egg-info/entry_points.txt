@@ -1,0 +1,3 @@
+[hpa.discovery]
+discovery = hpa.hpa_discovery:HPA_Discovery
+

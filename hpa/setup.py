@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='hpa_discovery',
+    name='hpa',
     version='1.0',
 
     description='HPA discovery package for stevedore',
@@ -26,7 +26,7 @@ setup(
 
     scripts=[],
 
-    provides=['hpa_discovery',
+    provides=['hpa',
               ],
 
     packages=find_packages(),
@@ -34,9 +34,8 @@ setup(
     include_package_data=True,
 
     entry_points={
-        'hpa_discovery.formatter': [
-            'simple = hpa_discovery.hsimple:Simple',
-            'plain = hpa_discovery.hsimple:Simple',
+        'hpa.discovery': [
+            'discovery = hpa.hpa_discovery:HPA_Discovery',
         ],
     },
 

@@ -1,4 +1,0 @@
-[hpa_discovery.formatter]
-plain = hpa_discovery.hsimple:Simple
-simple = hpa_discovery.hsimple:Simple
-
