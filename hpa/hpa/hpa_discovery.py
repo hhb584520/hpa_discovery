@@ -6,72 +6,78 @@ from hpa import base
 class HPA_Discovery(base.HPA_DiscoveryBase):
     """HPA Discovery implementation.
     """
+    def __init__(self, version):
+        self.version = version
+        if not hasattr(self, "_logger"):
+            self._logger = logging.getLogger("hpa_discovery")
+            self.fh = logging.FileHandler('discovery.log')
+            self.fh.setLevel(logging.DEBUG)
+            self._logger.addHandler(self.fh)
 
     def get_hpa_capabilities(self, data):
         hpa_caps = []
 
-        # cpupining capabilities
-        caps_dict = self._get_cpupining(data)
-        if len(caps_dict) > 0:
-            logging.debug("cpupining_capabilities_info: %s" % caps_dict)
-            hpa_caps.append(caps_dict)
-
         # Basic capabilties
         caps_dict = self._get_basic_capabilities(data)
         if len(caps_dict) > 0:
-            logging.debug("basic_capabilities_info: %s" % caps_dict)
+            self._logger.debug("basic_capabilities_info: %s" % caps_dict)
             hpa_caps.append(caps_dict)
 
+        # cpupining capabilities
+        caps_dict = self._get_cpupining(data)
+        if len(caps_dict) > 0:
+            self._logger.debug("cpupining_capabilities_info: %s" % caps_dict)
+            hpa_caps.append(caps_dict)
 
         # cputopology capabilities
         caps_dict = self._get_cputopology_capabilities(data)
         if len(caps_dict) > 0:
-            logging.debug("cputopology_capabilities_info: %s" % caps_dict)
+            self._logger.debug("cputopology_capabilities_info: %s" % caps_dict)
             hpa_caps.append(caps_dict)
 
         # hugepages capabilities
         caps_dict = self._get_hugepages_capabilities(data)
         if len(caps_dict) > 0:
-            logging.debug("hugepages_capabilities_info: %s" % caps_dict)
+            self._logger.debug("hugepages_capabilities_info: %s" % caps_dict)
             hpa_caps.append(caps_dict)
 
         # numa capabilities
         caps_dict = self._get_numa_capabilities(data)
         if len(caps_dict) > 0:
-            logging.debug("numa_capabilities_info: %s" % caps_dict)
+            self._logger.debug("numa_capabilities_info: %s" % caps_dict)
             hpa_caps.append(caps_dict)
 
         # storage capabilities
         caps_dict = self._get_storage_capabilities(data)
         if len(caps_dict) > 0:
-            logging.debug("storage_capabilities_info: %s" % caps_dict)
+            self._logger.debug("storage_capabilities_info: %s" % caps_dict)
             hpa_caps.append(caps_dict)
 
         # CPU instruction set extension capabilities
         caps_dict = self._get_instruction_set_capabilities(data)
         if len(caps_dict) > 0:
-            logging.debug("instruction_set_capabilities_info: %s" % caps_dict)
+            self._logger.debug("instruction_set_capabilities_info: %s" % caps_dict)
             hpa_caps.append(caps_dict)
 
         # PCI passthrough capabilities
         caps_dict = self._get_pci_passthrough_capabilities(data)
         if len(caps_dict) > 0:
-            logging.debug("pci_passthrough_capabilities_info: %s" % caps_dict)
+            self._logger.debug("pci_passthrough_capabilities_info: %s" % caps_dict)
             hpa_caps.append(caps_dict)
 
         # SRIOV-NIC capabilities
         caps_dict = self._get_sriov_nic_capabilities(data)
         if len(caps_dict) > 0:
-            logging.debug("sriov_nic_capabilities_info: %s" % caps_dict)
+            self._logger.debug("sriov_nic_capabilities_info: %s" % caps_dict)
             hpa_caps.append(caps_dict)
 
         # ovsdpdk capabilities
         caps_dict = self._get_ovsdpdk_capabilities(data)
         if len(caps_dict) > 0:
-            logging.debug("ovsdpdk_capabilities_info: %s" % caps_dict)
+            self._logger.debug("ovsdpdk_capabilities_info: %s" % caps_dict)
             hpa_caps.append(caps_dict)
 
-        logging.debug("hpa_caps:%s" % hpa_caps)
+        self._logger.debug("hpa_caps:%s" % hpa_caps)
         return hpa_caps
 
     def _get_basic_capabilities(self, data):
@@ -97,7 +103,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                      '{{\"value\":\"{0}\",\"unit\":\"{1}\"}}'.format(flavor['ram'],"MB")
                  })
         except Exception as e:
-            logging.error(e.message)
+            self._logger.error(e.message)
             return (
                 11, e.message
             )
@@ -133,7 +139,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                                  extra_specs['hw:cpu_policy'])
                          })
         except Exception:
-            logging.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc())
        
         return cpupining_capability
 
@@ -171,7 +177,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                              '{{\"value\":\"{0}\"}}'.format(extra_specs['hw:cpu_threads'])
                          })
         except Exception:
-            logging.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc())
 
         return cputopology_capability
 
@@ -201,7 +207,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                              '{{\"value\":\"{0}\",\"unit\":\"{1}\"}}'.format(4,"KB")
                          })
                 elif extra_specs['hw:mem_page_size'] == 'any':
-                    logging.info("Currently HPA feature memoryPageSize did not support 'any' page!!")
+                    self._logger.info("Currently HPA feature memoryPageSize did not support 'any' page!!")
                 else :
                     hugepages_capability['hpa-feature-attributes'].append(
                         {'hpa-attribute-key': 'memoryPageSize',
@@ -209,7 +215,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                              '{{\"value\":\"{0}\",\"unit\":\"{1}\"}}'.format(extra_specs['hw:mem_page_size'],"KB")
                          })
         except Exception:
-            logging.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc())
 
         return hugepages_capability
 
@@ -250,7 +256,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                                  '{{\"value\":\"{0}\",\"unit\":\"{1}\"}}'.format(extra_specs[numa_mem_node],"MB")
                              })
         except Exception:
-            logging.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc())
 
         return numa_capability
 
@@ -285,7 +291,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                          flavor['OS-FLV-EXT-DATA:ephemeral'] or 0, "GB")
                  })
         except Exception:
-            logging.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc())
 
         return storage_capability
 
@@ -309,7 +315,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                              extra_specs['hw:capabilities:cpu_info:features'])
                      })
         except Exception:
-            logging.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc())
 
         return instruction_capability
 
@@ -346,7 +352,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                          '{{\"value\":\"{0}\"}}'.format(value2[4])
                                                                          })
         except Exception:
-            logging.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc())
 
         return pci_passthrough_capability
 
@@ -383,7 +389,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                      'hpa-attribute-value':
                          '{{\"value\":\"{0}\"}}'.format(value2[5])})
         except Exception:
-            logging.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc())
 
         return sriov_capability
 
@@ -417,6 +423,6 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                                 cloud_dpdk_info.get("libversion"))
                         },]
         except Exception:
-            logging.error(traceback.format_exc())
+            self._logger.error(traceback.format_exc())
 
         return ovsdpdk_capability
