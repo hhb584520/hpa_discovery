@@ -21,12 +21,12 @@ class HPA_DiscoveryBase(object):
         :returns: Iterable producing the formatted text.
         """
 
-    @abc.abstractmethod
-    def _get_cpupining(self, data):
-        """Get cpupinning capabilities.
-
-        :param data: A dictionary with string keys and simple types as
-                     values.
-        :type data: dict(str:?)
-        :returns: Iterable producing the formatted text.
-        """
+#    @abc.abstractmethod
+#    def _get_cpupining(self, data):
+#        """Get cpupinning capabilities.
+#
+#        :param data: A dictionary with string keys and simple types as
+#                     values.
+#        :type data: dict(str:?)
+#        :returns: Iterable producing the formatted text.
+#        """
