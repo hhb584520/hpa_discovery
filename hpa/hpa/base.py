@@ -12,7 +12,17 @@ class HPA_DiscoveryBase(object):
         self.version = version
 
     @abc.abstractmethod
-    def get_cpupining(self, data):
+    def get_hpa_capabilities(self, data):
+        """Get cpupinning capabilities.
+
+        :param data: A dictionary with string keys and simple types as
+                     values.
+        :type data: dict(str:?)
+        :returns: Iterable producing the formatted text.
+        """
+
+    @abc.abstractmethod
+    def _get_cpupining(self, data):
         """Get cpupinning capabilities.
 
         :param data: A dictionary with string keys and simple types as

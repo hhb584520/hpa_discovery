@@ -31,15 +31,10 @@ if __name__ == '__main__':
         invoke_args=(parsed_args.width,),
     )
 
-    def get_cpupining(ext, data):
-        return (ext.name, ext.obj.get_cpupining(data))
+    def get_hpa_capabilities(ext, data):
+        return (ext.name, ext.obj.get_hpa_capabilities(data))
 
-
-    arr_hpa = [get_cpupining]    
-
-    for index in range(len(arr_hpa)):
-        #mgr.map(arr_hpa[index], data)
-        results = mgr.map(arr_hpa[index], data)
-        for name, value in results:
-            print(name)
-            print(value)
+    results = mgr.map(get_hpa_capabilities, data)
+    for name, value in results:
+        print(name)
+        print(value)

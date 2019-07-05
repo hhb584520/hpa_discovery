@@ -8,7 +8,11 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
     """HPA Discovery implementation.
     """
 
-    def get_cpupining(self, data):
+    def get_hpa_capabilities(self, data):
+        # return "hhb"
+        return self._get_cpupining(data)
+
+    def _get_cpupining(self, data):
         """Get cpupining capabilities.
 
         :param data: A dictionary with string keys and simple types as
