@@ -1,5 +1,6 @@
 import textwrap
 import uuid
+import logging
 from hpa import base
 
 
@@ -42,7 +43,9 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                                  extra_specs['hw:cpu_policy'])
                          })
         except Exception:
-            self._logger.error(traceback.format_exc())
+            logging.error(traceback.format_exc())
+       
+        logging.error(cpupining_capability)
 
-        yield cpupining_capability
+        return cpupining_capability
 

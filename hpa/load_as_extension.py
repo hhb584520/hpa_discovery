@@ -42,6 +42,4 @@ if __name__ == '__main__':
         results = mgr.map(arr_hpa[index], data)
         for name, value in results:
             print(name)
-            for chunk in value:
-                k = [a for a in value]
-                print(k)
+            print(value)
