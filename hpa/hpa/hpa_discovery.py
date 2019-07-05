@@ -1,3 +1,4 @@
+import traceback
 import uuid
 import logging
 from hpa import base
@@ -103,7 +104,7 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
                      '{{\"value\":\"{0}\",\"unit\":\"{1}\"}}'.format(flavor['ram'],"MB")
                  })
         except Exception as e:
-            self._logger.error(e.message)
+            self._logger.error(traceback.format_exc())
             return (
                 11, e.message
             )
