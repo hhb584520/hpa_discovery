@@ -1,8 +1,19 @@
 import traceback
 import uuid
+import json
 import logging
 from hpa import base
 
+
+def ignore_case_get(args, key, def_val=""):
+    if not key:
+        return def_val
+    if key in args:
+        return args[key]
+    for old_key in args:
+        if old_key.upper() == key.upper():
+            return args[old_key]
+    return def_val
 
 class HPA_Discovery(base.HPA_DiscoveryBase):
     """HPA Discovery implementation.
@@ -399,30 +410,31 @@ class HPA_Discovery(base.HPA_DiscoveryBase):
         feature_uuid = uuid.uuid4()
         extra_specs = data[1]
         viminfo = data[2]
+        arch = "Intel64"
+        version = "v1"
+        libname = "dataProcessingAccelerationLibrary"
+        libversion = "17.2"
 
         try:
-            cloud_extra_info_str = viminfo.get('cloud_extra_info')
-            if not isinstance(cloud_extra_info_str, dict):
-                try:
-                    cloud_extra_info_str = json.loads(cloud_extra_info_str)
-                except Exception as ex:
-                    logger.error("Can not convert cloud extra info %s %s" % (
-                                 str(ex), cloud_extra_info_str))
-                    return {}
-            if cloud_extra_info_str :
-                cloud_dpdk_info = cloud_extra_info_str.get("ovsDpdk")
-                if cloud_dpdk_info :
-                    ovsdpdk_capability['hpa-capability-id'] = str(feature_uuid)
-                    ovsdpdk_capability['hpa-feature'] = 'ovsDpdk'
-                    ovsdpdk_capability['architecture'] = 'Intel64'
-                    ovsdpdk_capability['hpa-version'] = 'v1'
+            if "cloud_extra_info" in viminfo:
+                cloud_extra_info_str = viminfo.get('cloud_extra_info')
+                cloud_extra_info = json.loads(cloud_extra_info_str)
+                dpdk_info = ignore_case_get(cloud_extra_info, "ovsDpdk")
+                arch = ignore_case_get(dpdk_info, 'arch', "Intel64")
+                version = ignore_case_get(dpdk_info, 'version', "v1")
+                libname = ignore_case_get(dpdk_info, "libname", "dataProcessingAccelerationLibrary")
+                libversion = ignore_case_get(dpdk_info, "libversion", "17.2")
 
-                    ovsdpdk_capability['hpa-feature-attributes'] = [
-                        {
-                            'hpa-attribute-key': str(cloud_dpdk_info.get("libname")),
-                            'hpa-attribute-value': '{{\"value\":\"{0}\"}}'.format(
-                                cloud_dpdk_info.get("libversion"))
-                        },]
+            ovsdpdk_capability['hpa-capability-id'] = str(feature_uuid)
+            ovsdpdk_capability['hpa-feature'] = 'ovsDpdk'
+            ovsdpdk_capability['architecture'] = arch
+            ovsdpdk_capability['hpa-version'] = version
+
+            ovsdpdk_capability['hpa-feature-attributes'] = [
+                {
+                    'hpa-attribute-key': str(libname),
+                    'hpa-attribute-value': '{{\"value\":\"{0}\"}}'.format(libversion)
+                },]
         except Exception:
             self._logger.error(traceback.format_exc())
 
