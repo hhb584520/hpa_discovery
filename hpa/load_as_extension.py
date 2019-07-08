@@ -6,15 +6,6 @@ from stevedore import extension
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        '--width',
-        default=20,
-        type=int,
-        help='maximum output width for text',
-    )
-    parsed_args = parser.parse_args()
-
     flavor = {
         "vcpus": 2,
         "ram": "2048",
@@ -110,7 +101,6 @@ if __name__ == '__main__':
         mgr = extension.ExtensionManager(
             namespace='hpa.discovery',
             invoke_on_load=True,
-            invoke_args=(parsed_args.width,),
         )
 
         results = mgr.map(get_hpa_capabilities, data)

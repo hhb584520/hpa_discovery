@@ -18,8 +18,7 @@ def ignore_case_get(args, key, def_val=""):
 class HPA_Discovery(base.HPA_DiscoveryBase):
     """HPA Discovery implementation.
     """
-    def __init__(self, version):
-        self.version = version
+    def __init__(self):
         if not hasattr(self, "_logger"):
             self._logger = logging.getLogger("hpa_discovery")
             self.fh = logging.FileHandler('discovery.log')

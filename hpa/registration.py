@@ -546,15 +546,16 @@ class RegistryHelper(MultiCloudAAIHelper):
                         req_resouce, "compute", session,
                         viminfo, vimid, "extra_specs")
 
+                    # call extension plugin start
                     params = [flavor, extraResp, viminfo]
                     mgr = extension.ExtensionManager(
                         namespace='hpa.discovery',
                         invoke_on_load=True,
-                        invoke_args=(parsed_args.width,),
                     )
-                    results = mgr.map(get_hpa_capabilities, data)
+                    results = mgr.map(get_hpa_capabilities, params)
                     for name, value in results:
                         flavor_info['hpa-capabilities'] = {'hpa-capability': value}
+                    # call extension plugin end
 
                 retcode, content = self._update_resoure(
                     cloud_owner, cloud_region_id, flavor['id'],
