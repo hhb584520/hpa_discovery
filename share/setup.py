@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="multicloud-share",
-    version="0.0.7",
+    name="onap-multicloud-base",
+    version="0.0.2",
     author="Haibin Huang",
     author_email="haibin.huang@intel.com",
     description="A multicloud share package",
