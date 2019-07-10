@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="multicloud-share",
-    version="0.0.6",
+    version="0.0.7",
     author="Haibin Huang",
     author_email="haibin.huang@intel.com",
     description="A multicloud share package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/hhb584520/hpa_discovery",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
